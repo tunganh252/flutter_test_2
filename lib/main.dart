@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   final List<Transaction> transactions = [
-    Transaction(amount: 100, date: DateTime.now(), id: "a1", title: "Adiddas "),
+    Transaction(
+        amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas "),
     Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike")
   ];
 
@@ -38,18 +39,37 @@ class MyHomePage extends StatelessWidget {
               children: transactions.map((value) {
                 return Card(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        child: Text(value.title),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(color: Colors.redAccent, width: 2)),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          '\$${value.amount}',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.blue),
+                        ),
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(value.amount.toString()),
-                          Text(value.date.toString()),
+                          Text(
+                            value.title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 21),
+                          ),
+                          Text(
+                            value.date.toString(),
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ],
                       )
                     ],
