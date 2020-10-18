@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_2/transactions.modal.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,13 +11,20 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final List<Transaction> transactions = [
+    Transaction(amount: 100, date: DateTime.now(), id: "a1", title: "Adiddas "),
+    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("This is my app"),
         ),
-        body: Row(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               width: 200,
@@ -26,8 +34,28 @@ class MyHomePage extends StatelessWidget {
                 child: Text("sdfsf"),
               ),
             ),
-            Card(
-              child: Text("llll"),
+            Column(
+              children: transactions.map((value) {
+                return Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Text(value.title),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(value.amount.toString()),
+                          Text(value.date.toString()),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }).toList(),
             )
           ],
         ));
