@@ -11,9 +11,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Persional Expenses',
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.orangeAccent,
-        ),
+            primarySwatch: Colors.red,
+            accentColor: Colors.orangeAccent,
+            fontFamily: 'Synemono',
+            textTheme: ThemeData.light().textTheme.copyWith(
+                    title: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                )),
+            appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    title: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+            )),
         home: MyHomePage());
   }
 }
@@ -25,10 +40,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
   ];
 
   void _addNewTransaction(String txTitle, double txAmount) {
@@ -60,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(
           'Tung Anh nguyen',
-          style: TextStyle(fontFamily: 'Synemono', fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
