@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_2/models/transaction.modal.dart';
+import 'package:flutter_test_2/widgets/chart.widget.dart';
 import 'package:flutter_test_2/widgets/new_transaction.widget.dart';
 import 'package:flutter_test_2/widgets/transaction_list.widget.dart';
 
@@ -15,14 +16,14 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.orangeAccent,
             fontFamily: 'Synemono',
             textTheme: ThemeData.light().textTheme.copyWith(
-                    title: TextStyle(
+                    headline6: TextStyle(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 )),
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
-                    title: TextStyle(
+                    headline6: TextStyle(
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -45,6 +46,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
     // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((elm) {
+      return elm.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTrans = Transaction(
@@ -101,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
               ),
             ),
+            Chart(_recentTransactions),
             TransactionList(_userTransactions),
           ],
         ),
