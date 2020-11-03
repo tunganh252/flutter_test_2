@@ -21,6 +21,7 @@ class Chart extends StatelessWidget {
           totalSum += elm.amount;
         }
       }
+
       return {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
         'amount': totalSum
@@ -39,11 +40,22 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionValues.map((item) {
-          return ChartBar(item['day'], item['amount'],
-              (item['amount'] as double) / totalSpending);
-        }).toList(),
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((item) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                  item['day'],
+                  item['amount'],
+                  totalSpending == 0.0
+                      ? 0.0
+                      : (item['amount'] as double) / totalSpending),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
