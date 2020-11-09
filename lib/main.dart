@@ -23,12 +23,12 @@ class MyApp extends StatelessWidget {
                 )),
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
-                    headline6: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                  headline6: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
+                  button: TextStyle(color: Colors.white)),
             )),
         home: MyHomePage());
   }
@@ -41,10 +41,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
-    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
+    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
   ];
 
   List<Transaction> get _recentTransactions {

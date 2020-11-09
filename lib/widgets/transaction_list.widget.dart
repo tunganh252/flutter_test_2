@@ -30,42 +30,22 @@ class TransactionList extends StatelessWidget {
               itemCount: transactions.length,
               itemBuilder: (data, index) {
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                // color: Colors.purple,
-                                width: 2)),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Theme.of(context).primaryColor),
-                        ),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: FittedBox(
+                            child: Text('\$${transactions[index].amount}')),
                       ),
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(transactions[index].title,
-                              style:
-                                  // TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-                                  Theme.of(context).textTheme.headline6),
-                          Text(
-                            DateFormat.yMMMMEEEEd()
-                                .format(transactions[index].date),
-                            // DateFormat().format(value.date),
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date)),
                   ),
                 );
               },
@@ -73,3 +53,43 @@ class TransactionList extends StatelessWidget {
     );
   }
 }
+
+// Card(
+//                   child: Row(
+//                     children: [
+//                       Container(
+//                         margin:
+//                             EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+//                         decoration: BoxDecoration(
+//                             border: Border.all(
+//                                 color: Theme.of(context).primaryColor,
+//                                 // color: Colors.purple,
+//                                 width: 2)),
+//                         padding: EdgeInsets.all(10),
+//                         child: Text(
+//                           '\$${transactions[index].amount.toStringAsFixed(2)}',
+//                           style: TextStyle(
+//                               fontWeight: FontWeight.bold,
+//                               fontSize: 20,
+//                               color: Theme.of(context).primaryColor),
+//                         ),
+//                       ),
+//                       Column(
+//                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(transactions[index].title,
+//                               style:
+//                                   // TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+//                                   Theme.of(context).textTheme.headline6),
+//                           Text(
+//                             DateFormat.yMMMMEEEEd()
+//                                 .format(transactions[index].date),
+//                             // DateFormat().format(value.date),
+//                             style: TextStyle(color: Colors.grey),
+//                           ),
+//                         ],
+//                       )
+//                     ],
+//                   ),
+//                 );
