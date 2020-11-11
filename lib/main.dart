@@ -12,9 +12,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Persional Expenses',
         theme: ThemeData(
-            primarySwatch: Colors.red,
-            accentColor: Colors.orangeAccent,
+            primarySwatch: Colors.brown,
+            accentColor: Colors.deepOrange,
             fontFamily: 'Synemono',
+            errorColor: Colors.red,
             textTheme: ThemeData.light().textTheme.copyWith(
                     headline6: TextStyle(
                   fontFamily: 'Roboto',
@@ -41,10 +42,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -53,12 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime selectedDate) {
     final newTrans = Transaction(
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now(),
-        id: DateTime.now().toString());
+        date: selectedDate,
+        id: selectedDate.toString());
     setState(() {
       _userTransactions.add(newTrans);
     });
@@ -74,6 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
             behavior: HitTestBehavior.opaque,
           );
         });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((elm) {
+        return elm.id == id;
+      });
+    });
   }
 
   @override
@@ -109,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Chart(_recentTransactions),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
