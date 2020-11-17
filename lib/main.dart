@@ -51,9 +51,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
-    Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
+    // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
   ];
 
   bool _showChart = false;
@@ -136,29 +136,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 _mediaQuery.padding.top) *
             0.6,
         child: TransactionList(_userTransactions, _deleteTransaction));
-    final pageBody = SingleChildScrollView(
+
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Container(
-          //   width: 200,
-          //   height: _mediaQuery.size.height * 0.2,
-          //   child: Card(
-          //     color: Colors.blueGrey,
-          //     elevation: 30,
-          //     child: Container(
-          //         padding: EdgeInsets.all(70),
-          //         child: Text(
-          //           "Submit Transaction",
-          //         )),
-          //   ),
-          // ),
           if (_isLanscape)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Show Chart'),
+                Text('Show Chart',
+                    style: Theme.of(context).textTheme.headline6),
                 Container(
                   padding: EdgeInsets.only(left: 10),
                   child: Switch.adaptive(
@@ -191,10 +181,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 : txListWidget
         ],
       ),
-    );
+    ));
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
+            navigationBar: appBar,
           )
         : Scaffold(
             appBar: appBar,
