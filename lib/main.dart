@@ -14,7 +14,12 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +53,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _userTransactions = [
     Transaction(amount: 58.4, date: DateTime.now(), id: "a1", title: "Adiddas"),
     // Transaction(amount: 33.6, date: DateTime.now(), id: "a2", title: "Nike"),
@@ -58,7 +63,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
-  //////////////////////////////////////////
+  // ===============================================
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((elm) {
@@ -98,10 +120,54 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery,
+      PreferredSizeWidget appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Show Chart', style: Theme.of(context).textTheme.headline6),
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            child: Switch.adaptive(
+                activeColor: Theme.of(context).primaryColor,
+                value: _showChart,
+                onChanged: (val) {
+                  setState(() {
+                    _showChart = val;
+                  });
+                }),
+          )
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(_recentTransactions))
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPotraitContent(MediaQueryData mediaQuery,
+      PreferredSizeWidget appBar, Widget txListWidget) {
+    return [
+      Container(
+          height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              0.3,
+          child: Chart(_recentTransactions)),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _mediaQuery = MediaQuery.of(context);
-    final _isLanscape = _mediaQuery.orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLanscape = mediaQuery.orientation == Orientation.landscape;
 
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
@@ -131,9 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
           );
 
     final txListWidget = Container(
-        height: (_mediaQuery.size.height -
+        height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
-                _mediaQuery.padding.top) *
+                mediaQuery.padding.top) *
             0.6,
         child: TransactionList(_userTransactions, _deleteTransaction));
 
@@ -143,42 +209,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (_isLanscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart',
-                    style: Theme.of(context).textTheme.headline6),
-                Container(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Switch.adaptive(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      }),
-                )
-              ],
-            ),
-          if (!_isLanscape)
-            Container(
-                height: (_mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        _mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions)),
-          if (!_isLanscape) txListWidget,
-          if (_isLanscape)
-            _showChart
-                ? Container(
-                    height: (_mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            _mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(_recentTransactions))
-                : txListWidget
+          if (isLanscape)
+            ..._buildLandscapeContent(mediaQuery, appBar, txListWidget),
+          if (!isLanscape)
+            ..._buildPotraitContent(mediaQuery, appBar, txListWidget),
         ],
       ),
     ));
